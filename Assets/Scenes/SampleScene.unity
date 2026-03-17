@@ -1047,9 +1047,9 @@ MonoBehaviour:
   PreviewVisible: 1
   RuntimeOcclusion: 0
   RuntimeCollider: 0
-  mTrackableName: invencible-square
+  mTrackableName: image_target_1
   mInitializedInEditor: 1
-  mDataSetPath: Vuforia/clase_ar.xml
+  mDataSetPath: Vuforia/invencible-targets.xml
   mAspectRatio: 1
   mImageTargetType: 0
   mWidth: 1
@@ -1124,8 +1124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mObserverBehaviour: {fileID: 1836621894}
   mHiddenRoot: {fileID: 0}
-  mTargetName: invencible-square
-  mDatasetName: Vuforia/clase_ar.xml
+  mTargetName: image_target_1
+  mDatasetName: Vuforia/invencible-targets.xml
   mCastedBehaviour: {fileID: 1836621894}
   mMeshFilter: {fileID: 0}
   mMeshRenderer: {fileID: 0}
