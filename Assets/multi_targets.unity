@@ -207,6 +207,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 120863981}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &120863984 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 2aa02043d796e504287d2765132c85d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 120863981}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &759517350
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,6 +985,7 @@ MonoBehaviour:
   - {fileID: 1571609829}
   currentTarget: 0
   speed: 1
+  animator: {fileID: 120863984}
 --- !u!114 &1571609833
 MonoBehaviour:
   m_ObjectHideFlags: 0
