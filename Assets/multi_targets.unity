@@ -161,6 +161,7 @@ MonoBehaviour:
   npcAtomEve: {fileID: 913736266}
   accesorioMundo: {fileID: 988512338}
   accesorioJugador: {fileID: 164081223}
+  offsetAtomEve: {x: 0.4, y: 0, z: 0.4}
   panelDialogo: {fileID: 1843112860}
   textoDialogo: {fileID: 198462400}
 --- !u!4 &17610818
@@ -3067,7 +3068,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1843112861
 RectTransform:
   m_ObjectHideFlags: 0

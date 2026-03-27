@@ -16,10 +16,12 @@ public class Move : MonoBehaviour
 
     // Creamos el canal de comunicación
     public event Action<int> OnTargetReached;
+    public event Action OnMovementStarted;
 
     public void moveToNextMarker()
     {
         if (isMoving || ImageTargets.Length == 0) return;
+        OnMovementStarted?.Invoke();
         StartCoroutine(MoveModel());
     }
 
