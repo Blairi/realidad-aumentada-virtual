@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Diagnostics;
 using UnityEngine;
@@ -12,6 +13,9 @@ public class Move : MonoBehaviour
     private bool isMoving = false;
 
     public Animator animator;
+
+    // Creamos el canal de comunicación
+    public event Action<int> OnTargetReached;
 
     public void moveToNextMarker()
     {
@@ -57,6 +61,9 @@ public class Move : MonoBehaviour
         {
             animator.SetBool("isWalking", false);
         }
+
+        // Lanzamos el evento QuestManager lo escuche
+        OnTargetReached?.Invoke(currentTarget);
 
         isMoving = false;
     }
