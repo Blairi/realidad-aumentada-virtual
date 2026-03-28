@@ -1,33 +1,77 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ChangeAccesory : MonoBehaviour
 {
+    [Header("Modelos 3D")]
     public GameObject[] accesorios;
+
+    [Header("Colección Desbloqueada")]
+    public bool[] desbloqueados;
+
+    void Start()
+    {
+        // apagamos todos los accesorios al inicio
+        for (int i = 0; i < accesorios.Length; i++)
+        {
+            if (accesorios[i] != null)
+            {
+                accesorios[i].SetActive(false);
+            }
+        }
+    }
 
     public void EquiparAccesorioAleatorio()
     {
-        // Si no hay accesorios en la lista, salimos para evitar errores
-        if (accesorios.Length == 0) return;
+        // Evitamos errores si no hay accesorios configurados
+        if (accesorios == null || accesorios.Length == 0 || desbloqueados.Length != accesorios.Length)
+            return;
 
-        // Apagamos todos los accesorios primero para evitar que se encimen
-        foreach (GameObject accesorio in accesorios)
+        // 1. Filtramos accesorios que tenemos desbloqueados
+        List<int> opcionesValidas = new List<int>();
+        for (int i = 0; i < desbloqueados.Length; i++)
         {
-            if (accesorio != null)
+            if (desbloqueados[i] == true)
             {
-                accesorio.SetActive(false);
+                opcionesValidas.Add(i);
             }
         }
 
-        // Elegimos un índice al azar
-        int indice = UnityEngine.Random.Range(0, accesorios.Length);
+        // Si no hay ninguno desbloqueado, no hacemos nada
+        if (opcionesValidas.Count == 0)
+            return;
 
-        // 3. Encendemos solo el accesorio seleccionado
-        if (accesorios[indice] != null)
+        // 2. Elegimos al azar un índice SOLO de nuestra lista de opciones válidas
+        int indiceAleatorio = UnityEngine.Random.Range(0, opcionesValidas.Count);
+        int indiceGanador = opcionesValidas[indiceAleatorio];
+
+        // 3. Encendemos el indice y apagamos estrictamente todos los demás
+        SincronizarVista(indiceGanador);
+    }
+
+    // <-- Desbloquea un ítem y lo equipa al instante (llamada por la narrativa)
+    public void DesbloquearYEquiparEspecifico(int indice)
+    {
+        // Validación de seguridad para no tronar el juego si el índice no existe
+        if (accesorios == null || indice < 0 || indice >= desbloqueados.Length) return;
+
+        // 1. Desbloqueamos el ítem en la memoria
+        desbloqueados[indice] = true;
+
+        // 2. Encendemos el modelo 3D y apagamos los demás
+        SincronizarVista(indice);
+    }
+
+    // <-- lógica de SetActive 
+    private void SincronizarVista(int indiceAEncender)
+    {
+        for (int i = 0; i < accesorios.Length; i++)
         {
-            accesorios[indice].SetActive(true);
+            if (accesorios[i] != null)
+            {
+                accesorios[i].SetActive(i == indiceAEncender);
+            }
         }
     }
 }
