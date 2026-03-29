@@ -47,13 +47,6 @@ public class QuestManager : MonoBehaviour
             targetsDisponibles.Add(i);
         }
 
-        // <-- Validación con mensaje visual (descomentado para que funcione tu alerta)
-        if (targetsDisponibles.Count < 4)
-        {
-            MostrarTexto("Mark: necesitamos al menos 4 marcadores para completar la misión.");
-            return;
-        }
-
         npcTargetIndex = SacarTargetAleatorio(targetsDisponibles);
         accesorioTargetIndex = SacarTargetAleatorio(targetsDisponibles);
         oliverTargetIndex = SacarTargetAleatorio(targetsDisponibles);
@@ -188,7 +181,7 @@ public class QuestManager : MonoBehaviour
         panelDialogo.SetActive(false);
     }
 
-    // <-- AGREGADO: Corrutina para apagar el diálogo y prender el panel de victoria
+    // <-- Corrutina para apagar el diálogo y prender el panel de victoria
     private IEnumerator MostrarPantallaFinal(float tiempoEspera)
     {
         yield return new WaitForSeconds(tiempoEspera);
@@ -196,7 +189,7 @@ public class QuestManager : MonoBehaviour
         if (panelVictoria != null) panelVictoria.SetActive(true);
     }
 
-    // <-- AGREGADO: Función pública para el Botón de Reiniciar
+    // <-- Función pública para el Botón de Reiniciar
     public void ReiniciarJuego()
     {
         string nombreEscenaActual = SceneManager.GetActiveScene().name;
