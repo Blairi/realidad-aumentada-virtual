@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement; // <-- AGREGADO: Necesario para reiniciar la escena
+using UnityEngine.SceneManagement; // Necesario para reiniciar la escena
 
 public class QuestManager : MonoBehaviour
 {
