@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement; // <-- AGREGADO: Necesario para reiniciar la escena
 
 public class QuestManager : MonoBehaviour
 {
@@ -28,6 +29,9 @@ public class QuestManager : MonoBehaviour
     public GameObject panelDialogo;
     public TextMeshProUGUI textoDialogo;
 
+    [Header("Pantalla Final")] // <-- AGREGADO: Referencia para tu menú de victoria
+    public GameObject panelVictoria;
+
     private int npcTargetIndex;
     private int accesorioTargetIndex;
     private int oliverTargetIndex;
@@ -43,12 +47,12 @@ public class QuestManager : MonoBehaviour
             targetsDisponibles.Add(i);
         }
 
-        //// <-- AJUSTE 2: Validación con mensaje visual en el Panel
-        //if (targetsDisponibles.Count < 4)
-        //{
-        //    MostrarTexto("Mark: necesitamos al menos 4 marcadores para completar la misión.");
-        //    return;
-        //}
+        // <-- Validación con mensaje visual (descomentado para que funcione tu alerta)
+        if (targetsDisponibles.Count < 4)
+        {
+            MostrarTexto("Mark: necesitamos al menos 4 marcadores para completar la misión.");
+            return;
+        }
 
         npcTargetIndex = SacarTargetAleatorio(targetsDisponibles);
         accesorioTargetIndex = SacarTargetAleatorio(targetsDisponibles);
@@ -64,6 +68,9 @@ public class QuestManager : MonoBehaviour
         npcOliver.SetActive(false);
 
         panelDialogo.SetActive(false);
+
+        // <-- AGREGADO: Nos aseguramos de que el panel final empiece apagado
+        if (panelVictoria != null) panelVictoria.SetActive(false);
     }
 
     private int SacarTargetAleatorio(List<int> lista)
@@ -109,7 +116,6 @@ public class QuestManager : MonoBehaviour
             MostrarTexto("¡Espada equipada! Ahora vamos a buscar a Oliver.");
             estadoMision = 2;
 
-            // <-- AJUSTE 3: Buscamos el Animator directamente en el modelo de Mark
             if (moveScript.model.TryGetComponent<Animator>(out Animator markAnim))
             {
                 markAnim.SetTrigger("anim_victory");
@@ -128,7 +134,7 @@ public class QuestManager : MonoBehaviour
             npcOliver.SetActive(true);
             HacerQueSeMiren(npcOliver);
 
-            MostrarTexto("Oliver: ¡Hermano! Olvidé mi mochila, ¿puedes ayudarme a encontrarla?");
+            MostrarTexto("Oliver: ¡Hermano! No olvides tu mochila, buscala en algún otro sector!");
             estadoMision = 3;
         }
         else if (estadoMision == 3 && targetAlcanzado == mochilaTargetIndex)
@@ -143,13 +149,13 @@ public class QuestManager : MonoBehaviour
                 markAnim.SetTrigger("anim_victory");
             }
 
-            // <-- AJUSTE 3: Buscamos el Animator directamente en el modelo de Oliver
             if (npcOliver.TryGetComponent<Animator>(out Animator oliverAnim))
             {
                 oliverAnim.SetTrigger("oliver_celebration");
             }
 
-            StartCoroutine(OcultarPanelConRetraso(4.0f));
+            // <-- AGREGADO: Llamamos a la pantalla de victoria después de celebrar
+            StartCoroutine(MostrarPantallaFinal(4.0f));
         }
     }
 
@@ -180,5 +186,20 @@ public class QuestManager : MonoBehaviour
     {
         yield return new WaitForSeconds(tiempo);
         panelDialogo.SetActive(false);
+    }
+
+    // <-- AGREGADO: Corrutina para apagar el diálogo y prender el panel de victoria
+    private IEnumerator MostrarPantallaFinal(float tiempoEspera)
+    {
+        yield return new WaitForSeconds(tiempoEspera);
+        panelDialogo.SetActive(false);
+        if (panelVictoria != null) panelVictoria.SetActive(true);
+    }
+
+    // <-- AGREGADO: Función pública para el Botón de Reiniciar
+    public void ReiniciarJuego()
+    {
+        string nombreEscenaActual = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(nombreEscenaActual);
     }
 }
